@@ -1,3 +1,4 @@
+#DON'T REPEAT WORK YOU'VE ALREADY DONE!
 import copy
 def LoadFromFile(filepath):
 	with open(filepath, "r") as f:
@@ -195,6 +196,7 @@ def BFS(state):
 				check = puzzle_and_num[1] # get the dictionary
 				#print(type(check))
 			
+			puzzle_path = puzzle_path[::-1]
 			return puzzle_path
 			# return the path you need by backtracking in parents
 
@@ -274,7 +276,9 @@ def DFS(state):
 				puzzle_path.append(puzzle_num_moved)
 				check = puzzle_and_num[1] # get the dictionary
 				#print(type(check))
-			
+
+
+			puzzle_path = puzzle_path[::-1]
 			return puzzle_path
 			# return the path you need by backtracking in parents
 
@@ -465,9 +469,11 @@ puzzle, N = LoadFromFile("/Users/cocolayton/n-puzzle/puzzle_text.txt")
 
 #goal = IsGoal(new_puzzle)
 #print(goal)
-#path = BFS(puzzle)
+path1 = BFS(puzzle)
+print("path 1", path1)
 
-#path = DFS(puzzle)
+path2 = DFS(puzzle)
+print("path 2", path2)
 
 path = BidirectionalSearch(puzzle)
 print("path", path)
