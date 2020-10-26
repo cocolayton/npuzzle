@@ -1,4 +1,8 @@
-#DON'T REPEAT WORK YOU'VE ALREADY DONE!
+"""
+	Name: Coco Layton
+	Date: October 25, 2020
+	Block: G
+"""
 import copy
 
 """
@@ -334,7 +338,8 @@ def BidirectionalSearch(state):
 
 	while len(frontier_for) != 0 and len(frontier_back) != 0:
 		current_state_for = frontier_for.pop(0)
-		tuple_current_state_for = ConvertToTuple(current_state_for)
+		tuple_current_state_for = ConvertToTuple(current_state_for) # tuple so can add to discovered
+
 		current_state_back = frontier_back.pop(0)
 		tuple_current_state_back = ConvertToTuple(current_state_back)
 
@@ -345,7 +350,8 @@ def BidirectionalSearch(state):
 			puzzle_path_for = []
 			check_for = discovered_for.intersection(discovered_back) # as traverse back through parent dict, check is used to check when
 																	# you're back to the original state and thus have found a path
-			check_for = ToDict(check_for.pop(), state)
+			
+			check_for = ToDict(check_for.pop(), state) # convert so it doesn't get messed up by tuple later
 
 			while check_for != state:
 				# get the num_moved and parent puzzle for this puzzle state from the parent dict
@@ -360,7 +366,8 @@ def BidirectionalSearch(state):
 			puzzle_path_back = []
 			check_back = discovered_back.intersection(discovered_for) # as traverse back through parent dict, check used to check when back to
 																		# OG state (which in this case is the goal state) and thus have found a path
-			check_back = ToDict(check_back.pop(), state)
+			
+			check_back = ToDict(check_back.pop(), state) # convert so it doesn't get messed up by tuple later
 			
 			while check_back != goal_state:
 				# get the num_moved and parent puzzle for this puzzle state from the parent dict
@@ -370,7 +377,6 @@ def BidirectionalSearch(state):
 				puzzle_path_back.append(puzzle_num_moved)
 				check_back = puzzle_and_num[1]
 
-			print(puzzle_path_back)
 			puzzle_path = puzzle_path_for + puzzle_path_back
 			return puzzle_path
 
@@ -389,8 +395,10 @@ def BidirectionalSearch(state):
 				num_moved = neighbor[0]
 				parents_for[neighbor_puzzle_tuple] = [num_moved, current_state_for] # current state = parent tuple
 
+				# as soon as find a neighbor in discovered quit and go find path
 				if neighbor_tuple in discovered_back:
 					break
+
 		for neighbor in ComputeNeighbors(current_state_back):
 			neighbor_tuple = ConvertToTuple(neighbor[1])
 			
@@ -406,6 +414,7 @@ def BidirectionalSearch(state):
 				num_moved = neighbor[0]
 				parents_back[neighbor_puzzle_tuple] = [num_moved, current_state_back] # current state = parent tuple
 
+				# as soon as find a neighbor in discovered quit and go find path
 				if neighbor_tuple in discovered_for:
 					break
 
